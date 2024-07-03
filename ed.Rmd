@@ -1,0 +1,32 @@
+---
+title: "Estadística Descriptiva"
+author: "Paúl Arévalo"
+date: "2024-07-03"
+output: 
+  pdf_document:
+    number_sections: true
+    extra_dependencies: ["fvextra"]
+    includes:
+      in_header: header.tex
+---
+
+<div style="font-size: 18pt; font-weight: bold;">
+**Reporte de la muestra de 500 combos de Sándwiches, Salsas, Papas y Refrescos**
+</div>
+
+Para comenzar el desarrollo del reporte es necesario cargar incialmente el archivo .csv con la muestra
+
+```{r}
+df <- read.csv("combo.csv")
+```
+
+# Comportamiento de la variable carne
+
+## Tendencia
+Calculamos las medidas de tendencia central
+```{r}
+media_carne <- mean(df$Carne)
+mediana_carne <- median(df$Carne)
+media_carne
+mediana_carne
+```
