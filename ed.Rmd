@@ -35,49 +35,61 @@ mean(combos$Carne)
 median(combos$Carne)
 ```
 
+### Cuartiles
+
+```{r}
+quantile(combos$Carne)
+```
+
 ## Variabilidad
 
 ### Varianza
 ```{r}
-var(df$Carne)
+var(combos$Carne)
 ```
 
 ### Desviación estandar
 ```{r}
-sd(df$Carne)
+sd(combos$Carne)
 ```
+
+### Amplitud
+
+```{r}
+max(combos$Carne) - min(combos$Carne)
+```
+
 
 ## Distribución
 
 ### Histograma
 
 ```{r}
-hist(df$Carne, col = "red", main = "Histograma de Carne", xlab = "Carne", ylab = "Frecuencia")
+hist(combos$Carne, col = "red", main = "Histograma de Carne", xlab = "Carne", ylab = "Frecuencia")
 ```
 
 ### Curtosis
 
 ```{r}
 library(moments)
-kurtosis(df$Carne)
+kurtosis(combos$Carne)
 ```
 
 ### Asimetría
 
 ```{r}
-skewness(df$Carne)
+skewness(combos$Carne)
 ```
 
 ## Valores Atípicos
 
 ```{r}
-boxplot(df$Carne, main = "Boxplot de Carne", ylab = "Carne", col = "red")
+boxplot(combos$Carne, main = "Boxplot de Carne", ylab = "Carne", col = "red")
 ```
 
 # Comportamiento de la variable salsa
 
 ## Tendencia
-Calculamos las medidas de tendencia central
 
 ### Media
 ```{r}
@@ -89,43 +101,55 @@ mean(combos$Salsa)
 median(combos$Salsa)
 ```
 
-## Variabilidad
+### Cuartiles
+
+```{r}
+quantile(combos$Salsa)
+```
 
 ### Varianza
 ```{r}
-var(df$Salsa)
+var(combos$Salsa)
 ```
 
 ### Desviación estandar
 ```{r}
-sd(df$Salsa)
+sd(combos$Salsa)
 ```
+
+### Amplitud
+
+```{r}
+max(combos$Salsa) - min(combos$Salsa)
+```
+
+## Variabilidad
 
 ## Distribución
 
 ### Histograma
 
 ```{r}
-hist(df$Salsa, col = "blue", main = "Histograma de Salsa", xlab = "Salsa", ylab = "Frecuencia")
+hist(combos$Salsa, col = "blue", main = "Histograma de Salsa", xlab = "Salsa", ylab = "Frecuencia")
 ```
 
 ### Curtosis
 
 ```{r}
 library(moments)
-kurtosis(df$Salsa)
+kurtosis(combos$Salsa)
 ```
 
 ### Asimetría
 
 ```{r}
-skewness(df$Salsa)
+skewness(combos$Salsa)
 ```
 
 ## Valores Atípicos
 
 ```{r}
-boxplot(df$Salsa, main = "Boxplot de Salsa", ylab = "Salsa", col = "blue")
+boxplot(combos$Salsa, main = "Boxplot de Salsa", ylab = "Salsa", col = "blue")
 ```
 
 # Comportamiento de la variable papas
@@ -139,37 +163,43 @@ boxplot(df$Salsa, main = "Boxplot de Salsa", ylab = "Salsa", col = "blue")
 ## Coeficiente de correlación
 
 ```{r}
-cor(df$Carne, df$Salsa)
+cor(combos$Carne, combos$Salsa)
 ```
 
 ## Análisis gráfico mediante un diagrama de dispersión
 
 ```{r}
-plot(df$Carne, df$Salsa, 
-     main = "Diagrama de dispersión de Carne vs Salsa", 
-     xlab = "Carne", 
-     ylab = "Salsa", 
-     pch = 19, 
-     col = "purple")
+plot(combos$Carne, combos$Salsa,
+  main = "Diagrama de dispersión de Carne vs Salsa",
+  xlab = "Carne",
+  ylab = "Salsa",
+  pch = 19,
+  col = "purple"
+)
 ```
 
 ## Interpretación del análisis de los resultados
 
-Mediante el análisis gráfico se puede inferir que , esto se demuestra con el resultado del coeficiente de correlación (cercano a 1 -> relacion positiva, cercano a -1 -> relacion negativa, cercano a 0: no hay relacion) 
+Mediante el análisis gráfico se puede inferir que las variables estan correlacionadas, esto se demuestra con el resultado del coeficiente de correlación que es más cercano a uno, lo que significa que existe una relación positiva de las variables
 
 # Combinación más frecuente de papas y refrescos
 
 ## Tabla de frecuencias cruzada entre papas y refrescos
 
 ```{r}
-tabla_frecuencias <- table(df$Papas, df$Refresco)
+tabla_frecuencias <- table(combos$Papas, combos$Refresco)
 tabla_frecuencias
 ```
 
 ## Indentificar la combinación más frecuente
 
 ```{r}
-tabla_frecuencias[which.max(tabla_frecuencias)]
+maximo <- which.max(tabla_frecuencias)
+tabla_frecuencias[which.max(maximo)]
+```
+
+```{r}
+names(maximo)
 ```
 
 # Combinación menos frecuente de papas y refrescos
@@ -177,7 +207,12 @@ tabla_frecuencias[which.max(tabla_frecuencias)]
 ## Indentificar la combinación más frecuente
 
 ```{r}
+minimo <- which.min(tabla_frecuencias)
 tabla_frecuencias[which.min(tabla_frecuencias)]
+```
+
+```{r}
+names(maximo)
 ```
 
 # Probabilidades de pedidos de un cliente
@@ -185,7 +220,7 @@ tabla_frecuencias[which.min(tabla_frecuencias)]
 **Calculamos el total de combos**
 
 ```{r}
-n_combos <- nrow(df)
+n_combos <- nrow(combos)
 ```
 
 ## Probabilidad de papas medianas
@@ -193,7 +228,7 @@ n_combos <- nrow(df)
 \(\frac{\text{Número de papas medianas}}{\text{Total de combos}}\)
 
 ```{r}
-sum(df$Papas == "Medianas") / n_combos
+sum(combos$Papas == "Medianas") / n_combos
 ```
 
 ## Probabilidad de papas medianas o refresco chico
@@ -201,7 +236,7 @@ sum(df$Papas == "Medianas") / n_combos
 \(\frac{\text{Número de papas medianas + Número de refresco chico - Número de ambos}}{\text{Total de combos}}\)
 
 ```{r}
-(sum(df$Papas == "Medianas") + sum(df$Refresco == "Chico") - sum(df$Papas == "Medianas" & df$Refresco == "Chico")) / n_combos
+(sum(combos$Papas == "Medianas") + sum(combos$Refresco == "Chico") - sum(combos$Papas == "Medianas" & combos$Refresco == "Chico")) / n_combos
 ```
 
 ## Probabilidad de papas grandes y refresco chico
@@ -209,7 +244,7 @@ sum(df$Papas == "Medianas") / n_combos
 \(\frac{\text{Número de papas grandes y refresco chico}}{\text{Total de combos}}\)
 
 ```{r}
-sum(df$Papas == "Grandes" & df$Refresco == "Chico") / n_combos
+sum(combos$Papas == "Grandes" & combos$Refresco == "Chico") / n_combos
 ```
 
 ## Probabilidad de papas grandes y refresco chico
@@ -217,8 +252,8 @@ sum(df$Papas == "Grandes" & df$Refresco == "Chico") / n_combos
 \(\frac{\text{Número de papas grandes y refresco chico}}{\text{Número de papas grandes}}\)
 
 ```{r}
-n_papas_grandes <- sum(df$Papas == "Grandes")
-sum(df$Papas == "Grandes" & df$Refresco == "Chico") / n_papas_grandes
+n_papas_grandes <- sum(combos$Papas == "Grandes")
+sum(combos$Papas == "Grandes" & combos$Refresco == "Chico") / n_papas_grandes
 ```
 
 # Verificación de independencia de los eventos papas grandes y refresco grande
