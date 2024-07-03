@@ -154,11 +154,22 @@ boxplot(combos$Salsa, main = "Boxplot de Salsa", ylab = "Salsa", col = "blue")
 
 # Comportamiento de la variable papas
 
+## Tabla de frecuencias
 
+```{r}
+tabla_papas <- table(combos$Papas)
+tabla_papas
+```
+
+## Gráfico de barras
+
+```{r}
+barplot(tabla_papas, main = "Distribución de Papas", xlab = "Tamaño de Papas", ylab = "Frecuencia", col = c("yellow", "blue", "red"))
+```
 
 # Comportamiento bivariado de las variables carne y salsa
 
-## Calculo del coeficiente de correlación entre las variables
+## Cálculo del coeficiente de correlación entre las variables
 
 ## Coeficiente de correlación
 
@@ -180,7 +191,7 @@ plot(combos$Carne, combos$Salsa,
 
 ## Interpretación del análisis de los resultados
 
-Mediante el análisis gráfico se puede inferir que las variables estan correlacionadas, esto se demuestra con el resultado del coeficiente de correlación que es más cercano a uno, lo que significa que existe una relación positiva de las variables
+Mediante el análisis gráfico se puede inferir que las variables estan correlacionadas, esto se demuestra con el resultado del coeficiente de correlación que es más cercano a uno, lo que significa que existe una relación positiva de las variables.
 
 # Combinación más frecuente de papas y refrescos
 
@@ -195,11 +206,11 @@ tabla_frecuencias
 
 ```{r}
 maximo <- which.max(tabla_frecuencias)
-tabla_frecuencias[which.max(maximo)]
+tabla_frecuencias[which.max(maximo), ]
 ```
 
 ```{r}
-names(maximo)
+names(maximo, )
 ```
 
 # Combinación menos frecuente de papas y refrescos
@@ -208,52 +219,103 @@ names(maximo)
 
 ```{r}
 minimo <- which.min(tabla_frecuencias)
-tabla_frecuencias[which.min(tabla_frecuencias)]
+tabla_frecuencias[which.min(tabla_frecuencias), ]
 ```
 
 ```{r}
-names(maximo)
+names(maximo, )
 ```
 
 # Probabilidades de pedidos de un cliente
 
 **Calculamos el total de combos**
 
+\( n = Total de combos \)
+
 ```{r}
 n_combos <- nrow(combos)
 ```
 
 ## Probabilidad de papas medianas
+**Eventos:**
+A = Número de papas medianas
 
-\(\frac{\text{Número de papas medianas}}{\text{Total de combos}}\)
+\(P(A) = \frac{\text{A}}{\text{n}}\)
 
 ```{r}
-sum(combos$Papas == "Medianas") / n_combos
+p_a <- dim(combos[which(combos$Papas == "Medianas"), ]) / n_combos
+p_a
 ```
 
 ## Probabilidad de papas medianas o refresco chico
+**Eventos:**
+A = Número de papas medianas
+B = Número de refresco chico
 
-\(\frac{\text{Número de papas medianas + Número de refresco chico - Número de ambos}}{\text{Total de combos}}\)
+\( P(A \cup B) = P(A) + P(B) - P(A \cap B) \)
 
 ```{r}
-(sum(combos$Papas == "Medianas") + sum(combos$Refresco == "Chico") - sum(combos$Papas == "Medianas" & combos$Refresco == "Chico")) / n_combos
+p_b <- dim(combos[which(combos$Refresco == "Chico", )]) / n_combos
+p_a_and_b <- dim(combos[which(combos$Papas == "Medianas" & combos$Refresco == "Chico"), ]) / n_combos
+p_a + p_b - p_a_and_b
 ```
 
 ## Probabilidad de papas grandes y refresco chico
+**Eventos:**
+A = Número de papas grandes
+B = Número de refresco chico
 
-\(\frac{\text{Número de papas grandes y refresco chico}}{\text{Total de combos}}\)
+\(P(A \cap B)\)
 
 ```{r}
-sum(combos$Papas == "Grandes" & combos$Refresco == "Chico") / n_combos
+dim(combos[which(combos$Papas == "Grandes" & combos$Refresco == "Chico"), ]) / n_combos
 ```
 
-## Probabilidad de papas grandes y refresco chico
+## Probabilidad de refresco chico si ya pidió papas grandes
+**Eventos:**
+A = Número de papas grandes
+B = Número de refresco chico
 
-\(\frac{\text{Número de papas grandes y refresco chico}}{\text{Número de papas grandes}}\)
+\( P(B|A) = \frac{P(A \cap B)}{P(A)} \)
 
 ```{r}
-n_papas_grandes <- sum(combos$Papas == "Grandes")
-sum(combos$Papas == "Grandes" & combos$Refresco == "Chico") / n_papas_grandes
+p_a_and_b_ <- dim(combos[which(combos$Papas == "Grandes" & combos$Refresco == "Chico"), ]) / n_combos
+p_a_ <- dim(combos[which(combos$Papas == "Grandes"), ]) / n_combos
+p_a_and_b_ / p_a_
 ```
 
 # Verificación de independencia de los eventos papas grandes y refresco grande
+
+## Eventos
+
+A = Número de papas grandes
+B = Número de refresco grande
+
+## Regla de independencia
+
+\( P(A \cap B) = P(A) \times P(B) \)
+
+Debe cumplirse la igualdad para que los eventos A y B sean independientes
+
+### Cálculo de \( P(A \cap B) \)
+
+```{r}
+p_izquierda <- dim(combos[which(combos$Papas == "Grandes" & combos$Refresco == "Grande"), ]) / n_combos
+p_izquierda
+```
+
+### Cálculo de \( P(A) \times P(B) \)
+
+Usando la variable p_a_ del ejercicio anterior
+
+```{r}
+p_derecha <- p_a_ * dim(combos[which(combos$Refresco == "Grande"), ]) / n_combos
+p_derecha
+```
+
+## Interpretación
+
+```{r}
+p_izquierda == p_izquierda
+```
+
