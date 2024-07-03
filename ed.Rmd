@@ -107,6 +107,8 @@ median(combos$Salsa)
 quantile(combos$Salsa)
 ```
 
+## Variabilidad
+
 ### Varianza
 ```{r}
 var(combos$Salsa)
@@ -122,8 +124,6 @@ sd(combos$Salsa)
 ```{r}
 max(combos$Salsa) - min(combos$Salsa)
 ```
-
-## Variabilidad
 
 ## Distribución
 
@@ -171,8 +171,6 @@ barplot(tabla_papas, main = "Distribución de Papas", xlab = "Tamaño de Papas",
 
 ## Cálculo del coeficiente de correlación entre las variables
 
-## Coeficiente de correlación
-
 ```{r}
 cor(combos$Carne, combos$Salsa)
 ```
@@ -205,32 +203,26 @@ tabla_frecuencias
 ## Indentificar la combinación más frecuente
 
 ```{r}
-maximo <- which.max(tabla_frecuencias)
-tabla_frecuencias[which.max(maximo), ]
+tabla_frecuencias[which.max(tabla_frecuencias)]
 ```
 
-```{r}
-names(maximo, )
-```
+A partir del valor obtenido pordemos decir que la combinación de papas medianas y refresco mediano es más frecuente
 
 # Combinación menos frecuente de papas y refrescos
 
 ## Indentificar la combinación más frecuente
 
 ```{r}
-minimo <- which.min(tabla_frecuencias)
-tabla_frecuencias[which.min(tabla_frecuencias), ]
+tabla_frecuencias[which.min(tabla_frecuencias)]
 ```
 
-```{r}
-names(maximo, )
-```
+A partir del valor obtenido pordemos decir que la combinación de papas chicas y refresco grande es más frecuente
 
 # Probabilidades de pedidos de un cliente
 
 **Calculamos el total de combos**
 
-\( n = Total de combos \)
+\( n = \text{Total de  combos} \)
 
 ```{r}
 n_combos <- nrow(combos)
@@ -238,9 +230,9 @@ n_combos <- nrow(combos)
 
 ## Probabilidad de papas medianas
 **Eventos:**
-A = Número de papas medianas
+$$A = \text{Número de papas medianas}$$
 
-\(P(A) = \frac{\text{A}}{\text{n}}\)
+$$P(A) = \frac{\text{A}}{\text{n}}$$
 
 ```{r}
 p_a <- dim(combos[which(combos$Papas == "Medianas"), ]) / n_combos
@@ -249,51 +241,51 @@ p_a
 
 ## Probabilidad de papas medianas o refresco chico
 **Eventos:**
-A = Número de papas medianas
-B = Número de refresco chico
+$$A = \text{Número de papas medianas} $$
+$$B = \text{Número de refresco chico} $$
 
-\( P(A \cup B) = P(A) + P(B) - P(A \cap B) \)
+$$ P(A \cup B) = P(A) + P(B) - P(A \cap B) $$
 
 ```{r}
-p_b <- dim(combos[which(combos$Refresco == "Chico", )]) / n_combos
+p_b <- dim(combos[which(combos$Refresco == "Chico"), ]) / n_combos
 p_a_and_b <- dim(combos[which(combos$Papas == "Medianas" & combos$Refresco == "Chico"), ]) / n_combos
-p_a + p_b - p_a_and_b
+p_a[1] + p_b[1] - p_a_and_b[1]
 ```
 
 ## Probabilidad de papas grandes y refresco chico
 **Eventos:**
-A = Número de papas grandes
-B = Número de refresco chico
+$$A = \text{Número de papas grandes} $$
+$$B = \text{Número de refresco chico} $$
 
-\(P(A \cap B)\)
+$$P(A \cap B)$$
 
 ```{r}
-dim(combos[which(combos$Papas == "Grandes" & combos$Refresco == "Chico"), ]) / n_combos
+(dim(combos[which(combos$Papas == "Grandes" & combos$Refresco == "Chico"), ]) / n_combos)[1]
 ```
 
 ## Probabilidad de refresco chico si ya pidió papas grandes
 **Eventos:**
-A = Número de papas grandes
-B = Número de refresco chico
+$$A = \text{Número de papas grandes} $$
+$$B = \text{Número de refresco chico} $$
 
-\( P(B|A) = \frac{P(A \cap B)}{P(A)} \)
+$$ P(B|A) = \frac{P(A \cap B)}{P(A)} $$
 
 ```{r}
 p_a_and_b_ <- dim(combos[which(combos$Papas == "Grandes" & combos$Refresco == "Chico"), ]) / n_combos
 p_a_ <- dim(combos[which(combos$Papas == "Grandes"), ]) / n_combos
-p_a_and_b_ / p_a_
+p_a_and_b_[1] / p_a_[1]
 ```
 
 # Verificación de independencia de los eventos papas grandes y refresco grande
 
 ## Eventos
 
-A = Número de papas grandes
-B = Número de refresco grande
+$$A = \text{Número de papas grandes} $$
+$$B = \text{Número de refresco grande} $$
 
 ## Regla de independencia
 
-\( P(A \cap B) = P(A) \times P(B) \)
+$$ P(A \cap B) = P(A) \times P(B) $$
 
 Debe cumplirse la igualdad para que los eventos A y B sean independientes
 
@@ -301,7 +293,7 @@ Debe cumplirse la igualdad para que los eventos A y B sean independientes
 
 ```{r}
 p_izquierda <- dim(combos[which(combos$Papas == "Grandes" & combos$Refresco == "Grande"), ]) / n_combos
-p_izquierda
+p_izquierda[1]
 ```
 
 ### Cálculo de \( P(A) \times P(B) \)
@@ -310,12 +302,12 @@ Usando la variable p_a_ del ejercicio anterior
 
 ```{r}
 p_derecha <- p_a_ * dim(combos[which(combos$Refresco == "Grande"), ]) / n_combos
-p_derecha
+p_derecha[1]
 ```
 
 ## Interpretación
 
 ```{r}
-p_izquierda == p_izquierda
+p_izquierda[1] == p_derecha[1]
 ```
 
