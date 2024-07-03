@@ -25,8 +25,9 @@ combos <- read.csv("combo.csv")
 ## Tendencia
 Calculamos las medidas de tendencia central
 ```{r}
-media_carne <- mean(combos$Carne)
-mediana_carne <- median(combos$Carne)
-media_carne
-mediana_carne
+mean(combos$Carne)
+```
+
+```{r}
+median(combos$Carne)
 ```
