@@ -1,2 +1,2 @@
-# estadistica-descriptiva-practica
+# Práctica sobre Estadistica Descriptiva
 Ejercicio práctico sobre la Estadística Descriptiva
